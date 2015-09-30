@@ -1,0 +1,9 @@
+*.pyc
+lib/*
+
+## new gcloud tool
+datastore.db
+logs.db
+search_indexes
+xsrf
+logs.db-journal
