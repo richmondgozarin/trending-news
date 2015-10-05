@@ -1,5 +1,5 @@
 import webapp2
-from ferris3 import settings
+from ferris3 import settings, oauth2, google_apis
 from twitter import Twitter, OAuth
 import logging
 
@@ -11,6 +11,9 @@ class TwitterHandler(webapp2.RequestHandler):
         twitter = Twitter(auth=OAuth(config["access_key"], config["access_secret"], config["consumer_key"], config["consumer_secret"]))
         results = twitter.trends.place(_id=1)
 
+        credentials = oauth2.build_service_account_credentials(["https://www.googleapis.com/customsearch"])
+        customSearch = google_apis.build("customsearch", "v1", credentials)
+        self.response.write("TRENDS - %s <br/>" % customSearch.cse.list(q='#SomosPuebloValiente') )
         self.response.write("Worldwide Trends <br/>")
         for location in results:
             for trend in location["trends"]:
